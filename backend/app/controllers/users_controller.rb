@@ -24,7 +24,17 @@ class UsersController < ApplicationController
   end
 
   def log_in
-    @user = User.find_by(username: user_params[:username])
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      render json: {user: @user, token: JWT.encode({user_id: @user.id}, 'Hide this secret!')}
+    else
+      render json: {error: 'Invalid creditials.'}
+    end
+  end
+
+  def get_user
+    @user = self.current_user
+    render json: @user
   end
 
   def update
