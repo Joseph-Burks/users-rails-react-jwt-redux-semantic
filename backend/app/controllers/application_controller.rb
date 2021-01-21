@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
             if method === 'Bearer'
                 payload, header = JWT.decode(token, 'Hide this secret!')
                 return User.find(payload['user_id'])
+            end
         rescue
             raise Exception.new('You must be logged in to make this request.')
         end

@@ -4,7 +4,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-
     render json: @users
   end
 
@@ -14,7 +13,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     if @user && @user.valid
       @user.save
       render json: {user: @user, token: JWT.encode({user_id: @user.id}, 'Hide this secret!')}, status: :created, location: @user
