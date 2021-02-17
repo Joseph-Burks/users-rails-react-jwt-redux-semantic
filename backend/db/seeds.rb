@@ -8,4 +8,10 @@
 
 User.destroy_all
 
-User.create!({email: 'john.doe@example.com', username: 'John Doe', password: '123456'})
+john = User.create!({email: 'john.doe@example.com', username: 'John Doe', password: '123456'})
+
+john.avatar.attach(
+    io: File.open('./public/avatars/Taco.png'),
+    filename: 'Taco.png',
+    content_type: 'application/png'
+)

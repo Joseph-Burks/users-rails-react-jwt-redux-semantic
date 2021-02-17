@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :logged_in?, only: [:create, :log_in]
+  skip_before_action :logged_in?, only: [:create, :log_in, :update]
   before_action :set_user, only: [:show, :update, :destroy]
 
   def index
@@ -22,9 +22,10 @@ class UsersController < ApplicationController
   end
 
   def log_in
-    @user = User.find_by(username: params[:username])
-    if @user && @user.authenticate(params[:password])
-      render json: {user: @user, token: JWT.encode({user_id: @user.id}, 'Hide this secret!')}
+    @user = User.find_by(username: user_params[:username])
+    if @user && @user.authenticate(user_params[:password])
+      avatar = rails_blob_path(@user.avatar)
+      render json: {user: @user, avatar: avatar, token: JWT.encode({user_id: @user.id}, 'Hide this secret!')}
     else
       render json: {error: 'Invalid creditials.'}
     end
@@ -32,15 +33,16 @@ class UsersController < ApplicationController
 
   def get_user
     @user = self.current_user
-    render json: @user
+    avatar = rails_blob_path(@user.avatar)
+    render json: {user: @user, avatar: avatar}
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
+    @user.update(avatar: params[:avatar])
+    byebug
+    avatar_url = rails_blob_path(@user.avatar)
+    byebug
+    render json: {user: @user, avatar: avatar_url}
   end
 
   def destroy
