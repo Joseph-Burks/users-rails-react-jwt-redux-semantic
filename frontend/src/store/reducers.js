@@ -71,7 +71,7 @@ export const reducer = (state, action) => {
 		case 'SET_LOGGED_IN_USER':
 			return {
 				...state,
-				usernameInput: action.user,
+				loggedInUser: action.user,
 			};
 		default:
 			return state;

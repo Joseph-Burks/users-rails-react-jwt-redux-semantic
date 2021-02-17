@@ -51,7 +51,6 @@ const SignUp = props => {
 
 	return (
 		<Segment
-			inverted
 			style={{
 				marginTop: '10vh',
 				marginLeft: '30vw',
