@@ -1,14 +1,16 @@
 export const initialState = {
 	errorMessages: {
 		email: null,
-        username: null,
-        password: null,
+		username: null,
+		password: null,
 		generic: null,
 	},
 	usernameInput: null,
 	emailInput: null,
 	passwordInput: null,
+	avatarInput: null,
 	loggedInUser: null,
+	userAvatar: null,
 };
 
 export const reducer = (state, action) => {
@@ -17,9 +19,9 @@ export const reducer = (state, action) => {
 			return {
 				...state,
 				errorMessages: {
-					email: `Email ${action.message}`,
-                    username: state.errorMessages.username,
-                    password: state.errorMessages.password,
+					email: action.message,
+					username: state.errorMessages.username,
+					password: state.errorMessages.password,
 					generic: state.errorMessages.generic,
 				},
 			};
@@ -28,7 +30,7 @@ export const reducer = (state, action) => {
 				...state,
 				errorMessages: {
 					email: state.errorMessages.email,
-					username: `Username ${action.message}`,
+					username: action.message,
 					password: state.errorMessages.password,
 					generic: state.errorMessages.generic,
 				},
@@ -39,7 +41,7 @@ export const reducer = (state, action) => {
 				errorMessages: {
 					email: state.errorMessages.email,
 					username: state.errorMessages.username,
-					password: `Password ${action.message}`,
+					password: action.message,
 					generic: state.errorMessages.generic,
 				},
 			};
@@ -68,10 +70,20 @@ export const reducer = (state, action) => {
 				...state,
 				passwordInput: action.value,
 			};
+		case 'CHANGE_AVATAR_INPUT':
+			return {
+				...state,
+				avatarInput: action.value,
+			};
 		case 'SET_LOGGED_IN_USER':
 			return {
 				...state,
-				usernameInput: action.user,
+				loggedInUser: action.user,
+			};
+		case 'SET_USER_AVATAR':
+			return {
+				...state,
+				userAvatar: action.avatar,
 			};
 		default:
 			return state;
